@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String         @id
+  name         String?        @db.VarChar(255)
+  email        String         @unique @db.VarChar(255)
+  phone        String?        @db.VarChar(255)
+  marriageHall MarriageHall[]
+
+  flat Flat[]
+
+
+  review Review[]
+  @@map(name: "user")
+}
+
+model MarriageHall {
+  id        String   @id
+  name      String   @db.VarChar(255)
+  city      String   @db.VarChar(255)
+  address   String   @db.VarChar(255)
+  pin       Int
+  area      Float
+  amenities String[]
+  owner     User     @relation(references: [id], fields: [ownerId])
+  ownerId   String
+
+  review Review[]
+  @@map(name: "marriageHall")
+}
+
+model Flat {
+  id        String   @id
+  name      String
+  city      String
+  address   String
+  pin       Int
+  type      String
+  amenities String[]
+  owner     User     @relation(references: [id], fields: [ownerId])
+  ownerId   String
+
+  review Review[]
+  @@map(name: "flat")
+}
+
+model Review {
+  id             String        @id
+  title          String        @db.VarChar(255)
+  body           String        @db.VarChar(4098)
+  author         User          @relation(references: [id], fields: [authorId])
+  authorId       String
+  marriageHall   MarriageHall? @relation(references: [id], fields: [marriageHallId])
+  marriageHallId String?
+  flat           Flat?         @relation(references: [id], fields: [flatId])
+  flatId         String?
+
+  @@map(name: "review")
+}

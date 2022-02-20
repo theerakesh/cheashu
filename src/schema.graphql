@@ -1,0 +1,101 @@
+type Query {
+  me: String!
+  # singlePost(id: ID!): Post
+  # singleUser(id: ID!): User
+  # singleMarriageHall(id: ID!): MarriageHall
+  # singleFlat(id: ID!): Flat
+  users: [User!]!
+  marriageHalls: [MarriageHall!]!
+  flats: [Flat!]!
+  reviews: [Review!]!
+}
+
+type Mutation {
+  createUser(data: createUserInput): User!
+  createFlat(data: createFlatInput): Flat!
+  createMarriageHall(data: createMarriageHallInput): MarriageHall!
+  createReview(data: createReviewInput): Review!
+}
+
+type Flat {
+  id: ID!
+  name: String!
+  city: String!
+  address: String!
+  pin: Int!
+  type: String!
+  amenities: [String!]!
+  area: Float!
+  owner: User!
+  review: [Review!]!
+}
+
+input createFlatInput {
+  name: String!
+  city: String!
+  address: String!
+  pin: Int!
+  type: String!
+  amenities: [String!]!
+  ownerId: ID!
+}
+
+type MarriageHall {
+  id: ID!
+  name: String!
+  city: String!
+  address: String!
+  pin: Int!
+  area: Float!
+  owner: User!
+  amenities: [String!]!
+  review: [Review!]!
+}
+
+input createMarriageHallInput {
+  name: String!
+  city: String!
+  address: String!
+  pin: Int!
+  area: Float!
+  amenities: [String!]!
+  ownerId: ID!
+}
+
+# type Pricing {
+#   veg: Float
+#   nonVeg: Float
+#   perDay: Float
+# }
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  phone: String!
+  marriageHall: [MarriageHall!]!
+  flat: [Flat!]!
+  review: [Review!]!
+}
+input createUserInput {
+  name: String!
+  email: String!
+  phone: String!
+}
+
+type Review {
+  id: ID!
+  body: String!
+  title: String!
+  author: User!
+  marriageHall: MarriageHall
+  flat: Flat
+}
+
+input createReviewInput {
+  title: String!
+  body: String!
+  authorId: ID!
+  marriageHallId: ID
+  flatId: ID
+}
