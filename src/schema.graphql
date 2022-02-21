@@ -5,9 +5,13 @@ type Query {
   # singleMarriageHall(id: ID!): MarriageHall
   # singleFlat(id: ID!): Flat
   users: [User!]!
+  user(id: ID!): User!
   marriageHalls: [MarriageHall!]!
+  marriageHall(id: ID!): MarriageHall!
   flats: [Flat!]!
+  flat(id: ID!): Flat!
   reviews: [Review!]!
+  review(id: ID!): Review!
 }
 
 type Mutation {
@@ -88,8 +92,6 @@ type Review {
   body: String!
   title: String!
   author: User!
-  marriageHall: MarriageHall
-  flat: Flat
 }
 
 input createReviewInput {

@@ -1,6 +1,6 @@
 const Flat = {
   owner(parent, args, { prisma }, info) {
-    return prisma.user.findFirst({
+    return prisma.user.findUnique({
       where: { id: parent.ownerId }
     })
   },
