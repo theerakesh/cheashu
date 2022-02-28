@@ -34,6 +34,15 @@ const Mutation = {
       data: marriageHall
     })
   },
+  createCommercialSpace(parent, { data }, { prisma }, info) {
+    const commercialSpace = {
+      id: uuidv4(),
+      ...data
+    }
+    return prisma.commercialSpace.create({
+      data: commercialSpace
+    })
+  },
   createReview(parent, { data }, { prisma }, info) {
     const review = {
       id: uuidv4(),

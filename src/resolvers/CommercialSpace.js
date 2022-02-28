@@ -1,17 +1,17 @@
-const MarriageHall = {
+const CommercialSpace = {
   owner(parent, args, { prisma }, info) {
     return prisma.user.findUnique({
       where: { id: parent.ownerId }
     })
   },
   review(parent, args, { prisma }, info) {
-    return prisma.marriageHall.findUnique({
+    return prisma.commercialSpace.findUnique({
       where: { id: parent.id }
     }).review()
     // return prisma.review.findMany({
-    //   where: { marriageHallId: parent.id }
+    //   where: { CommercialSpaceId: parent.id }
     // })
   }
 }
 
-export { MarriageHall as default }
+export { CommercialSpace as default }

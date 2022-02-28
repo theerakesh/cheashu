@@ -8,6 +8,8 @@ type Query {
   user(id: ID!): User!
   marriageHalls: [MarriageHall!]!
   marriageHall(id: ID!): MarriageHall!
+  commercialSpaces: [CommercialSpace!]!
+  commercialSpace(id: ID!): CommercialSpace!
   flats: [Flat!]!
   flat(id: ID!): Flat!
   reviews: [Review!]!
@@ -18,6 +20,7 @@ type Mutation {
   createUser(data: createUserInput): User!
   createFlat(data: createFlatInput): Flat!
   createMarriageHall(data: createMarriageHallInput): MarriageHall!
+  createCommercialSpace(data: createCommercialSpaceInput): CommercialSpace!
   createReview(data: createReviewInput): Review!
 }
 
@@ -28,6 +31,7 @@ type Flat {
   address: String!
   pin: Int!
   type: String!
+  photos: [String!]!
   amenities: [String!]!
   area: Float!
   owner: User!
@@ -40,6 +44,7 @@ input createFlatInput {
   address: String!
   pin: Int!
   type: String!
+  photos: [String!]!
   amenities: [String!]!
   ownerId: ID!
 }
@@ -52,6 +57,7 @@ type MarriageHall {
   pin: Int!
   area: Float!
   owner: User!
+  photos: [String!]!
   amenities: [String!]!
   review: [Review!]!
 }
@@ -62,10 +68,58 @@ input createMarriageHallInput {
   address: String!
   pin: Int!
   area: Float!
+  photos: [String!]!
   amenities: [String!]!
   ownerId: ID!
 }
 
+#  id                 String   @id
+#   name               String
+#   city               String
+#   address            String   @db.VarChar(2048)
+#   pin                Int
+#   area               Float
+#   distance_from_road Float
+#   availability       Boolean
+#   amenities          String[]
+#   photos             String[]
+#   suitable_for       String[]
+#   coordinate         String[]
+#   review             Review[]
+
+#   owner   User   @relation(references: [id], fields: [ownerId])
+#   ownerId String
+type CommercialSpace {
+  id: ID!
+  name: String!
+  city: String!
+  address: String!
+  pin: Int!
+  area: Float!
+  distance_from_road: Float
+  availability: Boolean!
+  amenities: [String!]!
+  photos: [String!]!
+  suitable_for: [String!]!
+  coordinate: [String!]!
+  review: [Review!]!
+  owner: User!
+}
+
+input createCommercialSpaceInput {
+  name: String!
+  city: String!
+  address: String!
+  pin: Int!
+  area: Float!
+  distance_from_road: Float
+  availability: Boolean!
+  amenities: [String!]!
+  photos: [String!]!
+  suitable_for: [String!]!
+  coordinate: [String!]!
+  ownerId: ID!
+}
 # type Pricing {
 #   veg: Float
 #   nonVeg: Float
@@ -77,14 +131,16 @@ type User {
   name: String!
   email: String!
   phone: String!
+  profilePic: String!
   marriageHall: [MarriageHall!]!
   flat: [Flat!]!
   review: [Review!]!
 }
 input createUserInput {
   name: String!
+  profilePic: String
   email: String!
-  phone: String!
+  phone: String
 }
 
 type Review {
@@ -100,4 +156,5 @@ input createReviewInput {
   authorId: ID!
   marriageHallId: ID
   flatId: ID
+  commercialSpaceId: ID
 }

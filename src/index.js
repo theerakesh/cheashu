@@ -6,6 +6,7 @@ import Flat from "./resolvers/Flat"
 import MarriageHall from "./resolvers/MarriageHall"
 import Mutation from "./resolvers/Mutation"
 import Review from "./resolvers/Review"
+import CommercialSpace from "./resolvers/CommercialSpace"
 
 const pubsub = new PubSub()
 
@@ -18,6 +19,7 @@ const server = new GraphQLServer({
     User,
     Flat,
     MarriageHall,
+    CommercialSpace,
     Review
   },
   context: {

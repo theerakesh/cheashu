@@ -26,6 +26,14 @@ const Query = {
       where: { id: args.id }
     })
   },
+  commercialSpaces(parent, args, { prisma }, info) {
+    return prisma.commercialSpace.findMany({})
+  },
+  commercialSpace(parent, args, { prisma }, info) {
+    return prisma.commercialSpace.findUnique({
+      where: { id: args.id }
+    })
+  },
   reviews(parent, args, { prisma }, info) {
     return prisma.review.findMany({})
   },

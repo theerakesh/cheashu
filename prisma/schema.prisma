@@ -12,17 +12,37 @@ datasource db {
 }
 
 model User {
-  id           String         @id
-  name         String?        @db.VarChar(255)
-  email        String         @unique @db.VarChar(255)
-  phone        String?        @db.VarChar(255)
-  marriageHall MarriageHall[]
+  id    String  @id
+  name  String? @db.VarChar(255)
+  email String  @unique @db.VarChar(255)
+  phone String? @db.VarChar(255)
 
-  flat Flat[]
-
-
-  review Review[]
+  profilePic      String            @default("https://avatars.githubusercontent.com/u/78639550?s=48&v=4")
+  marriageHall    MarriageHall[]
+  flat            Flat[]
+  review          Review[]
+  CommercialSpace CommercialSpace[]
   @@map(name: "user")
+}
+
+model CommercialSpace {
+  id                 String   @id
+  name               String
+  city               String
+  address            String   @db.VarChar(2048)
+  pin                Int
+  area               Float
+  distance_from_road Float
+  availability       Boolean  @default(false)
+  amenities          String[]
+  photos             String[]
+  suitable_for       String[]
+  coordinate         String[]
+  review             Review[]
+
+  owner   User   @relation(references: [id], fields: [ownerId])
+  ownerId String
+  @@map(name: "commercialSpace")
 }
 
 model MarriageHall {
@@ -32,6 +52,7 @@ model MarriageHall {
   address   String   @db.VarChar(255)
   pin       Int
   area      Float
+  photos    String[]
   amenities String[]
   owner     User     @relation(references: [id], fields: [ownerId])
   ownerId   String
@@ -47,6 +68,7 @@ model Flat {
   address   String
   pin       Int
   type      String
+  photos    String[]
   amenities String[]
   owner     User     @relation(references: [id], fields: [ownerId])
   ownerId   String
@@ -56,18 +78,21 @@ model Flat {
 }
 
 model Review {
-  id             String        @id
-  title          String        @db.VarChar(255)
-  body           String        @db.VarChar(4098)
-  author         User          @relation(references: [id], fields: [authorId])
-  authorId       String
-  marriageHall   MarriageHall? @relation(references: [id], fields: [marriageHallId])
-  marriageHallId String?
-  flat           Flat?         @relation(references: [id], fields: [flatId])
-  flatId         String?
+  id                String           @id
+  title             String           @db.VarChar(255)
+  body              String           @db.VarChar(4098)
+  author            User             @relation(references: [id], fields: [authorId])
+  authorId          String
+  marriageHall      MarriageHall?    @relation(references: [id], fields: [marriageHallId])
+  marriageHallId    String?
+  flat              Flat?            @relation(references: [id], fields: [flatId])
+  flatId            String?
+  commercialSpace   CommercialSpace? @relation(references: [id], fields: [commercialSpaceId])
+  commercialSpaceId String?
 
   @@index([authorId], type: Hash)
   @@index([marriageHallId], type: Hash)
   @@index([flatId], type: Hash)
+  @@index([commercialSpaceId], type: Hash)
   @@map(name: "review")
 }
